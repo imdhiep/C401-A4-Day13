@@ -31,7 +31,7 @@
 - [TRACE_WATERFALL_EXPLANATION]: Each trace represents a complete `/chat` request with ~150ms latency. The trace includes enriched context (session_id, user_id_hash, feature type, environment), metadata (doc_count, query_preview), and usage details (input/output tokens). The @observe() decorator captures LabAgent.run() as the root span, demonstrating proper tracing integration with Langfuse for end-to-end observability.
 
 ### 3.2 Dashboard & SLOs
-- [DASHBOARD_6_PANELS_SCREENSHOT]: evidence/dashboard_6_panels.png
+- [DASHBOARD_6_PANELS_SCREENSHOT]: evidence/dashboard_6_panels.jpg, evidence/dashboard_6_panels_2.jpg
 - [SLO_TABLE]:
 | SLI         |     Target | Window | Current Value |
 | ----------- | ---------: | ------ | ------------: |
@@ -56,29 +56,29 @@
 
 ## 5. Individual Contributions & Evidence
 
-### [MEMBER_A_NAME]
+### [Hoàng Thái Dương]
 - [TASKS_COMPLETED]: Implemented correlation ID middleware with unique req-xxxxx format. Enriched logs with user_id_hash, session_id, feature, model, env context. Enabled PII scrubbing processor to redact emails, phone numbers, and credit cards in logs.
 - [EVIDENCE_LINK]: validate_logs.py output showing 100/100 score and PII scrubbing verification (Link to specific commit or PR)
 
-### [MEMBER_B_NAME]
+### [Hoàng Quốc Chung]
 - [TASKS_COMPLETED]: Configured Langfuse tracing integration with public/secret keys. Verified 15 traces captured with enriched metadata (session_id, user_id_hash, feature, environment). Each trace shows LabAgent.run() span with ~150ms latency and usage details (input/output tokens).
 - [EVIDENCE_LINK]: Langfuse dashboard traces and trace detail screenshots 
 
-### [MEMBER_C_NAME]
+### [Trịnh Đức Anh]
 - [TASKS_COMPLETED]: Configured alert rules in config/alert_rules.yaml with 3 rules (high latency P95, high error rate, cost budget spike). Set SLO targets in config/slo.yaml (latency <3000ms, error <2%, cost <$2.5/day). Created runbooks in docs/alerts.md with mitigation steps.
 - [EVIDENCE_LINK]: alert_rules.yaml and slo.yaml configurations 
 
-### [MEMBER_D_NAME]
+### [Bùi Văn Đạt]
 - [TASKS_COMPLETED]: Executed load testing with concurrency=5, generated 20 requests with correlation IDs. Enabled rag_slow incident, observed 37% latency increase from 813ms to 1100ms. Disabled incident, latency returned to baseline. Verified metrics aggregation and error-free operation.
 - [EVIDENCE_LINK]: Load test terminal output and incident injection logs 
 
-### [MEMBER_E_NAME]
+### [Nguyễn Minh Quân]
 - [TASKS_COMPLETED]: Built 6-panel dashboard from /metrics endpoint showing latency P95 (192ms), error rate (0%), cost ($0.0417), traffic (20 requests), quality score (0.8), and token usage (824 in, 2616 out). Created SLO table with current values meeting targets.
 - [EVIDENCE_LINK]: Google Sheets dashboard with 6 panels and SLO table screenshot 
 
-### [MEMBER_F_NAME]
+### [Dương Văn Hiệp]
 - [TASKS_COMPLETED]: Compiled blueprint report with all evidence, screenshots, and individual contributions. Led demo presentation covering logging/tracing, incident response, and dashboard walkthrough.
-- [EVIDENCE_LINK]: demo recording 
+- [EVIDENCE_LINK]: demo recording + report
 
 ---
 
