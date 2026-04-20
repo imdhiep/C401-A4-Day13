@@ -13,6 +13,7 @@ from app.pii import hash_user_id
 def test_chat_logs_include_enrichment_fields(monkeypatch) -> None:
     log_path = Path(tempfile.gettempdir()) / f"test_chat_enrichment_logs_{uuid.uuid4().hex}.jsonl"
     monkeypatch.setattr("app.logging_config.LOG_PATH", log_path)
+    monkeypatch.setattr("app.main.get_langfuse_client", lambda: type("DummyClient", (), {"flush": lambda self: None})())
     monkeypatch.setattr(
         "app.main.agent.run",
         lambda **kwargs: AgentResult(
@@ -24,7 +25,6 @@ def test_chat_logs_include_enrichment_fields(monkeypatch) -> None:
             quality_score=0.9,
         ),
     )
-    monkeypatch.setattr("app.main.langfuse_context.flush", lambda: None)
 
     client = TestClient(app)
     response = client.post(
