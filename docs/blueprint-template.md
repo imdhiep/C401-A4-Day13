@@ -6,18 +6,19 @@
 - [GROUP_NAME]: 
 - [REPO_URL]: 
 - [MEMBERS]:
-  - Member A: [Name] | Role: Logging & PII
-  - Member B: [Name] | Role: Tracing & Enrichment
-  - Member C: [Name] | Role: SLO & Alerts
-  - Member D: [Name] | Role: Load Test & Dashboard
-  - Member E: [Name] | Role: Demo & Report
+  - Member A: Dương | Role: Logging & PII
+  - Member B: Chung | Role: Tracing & Enrichment
+  - Member C: Hoàng Anh | Role: SLO & Alerts
+  - Member D: Đạt | Role: Load Test & Dashboard
+  - Member E: Quân |Role: dashboard + evidence
+  - Member F: Hiệp | Role: Demo & Report
 
 ---
 
 ## 2. Group Performance (Auto-Verified)
-- [VALIDATE_LOGS_FINAL_SCORE]: /100
-- [TOTAL_TRACES_COUNT]: 
-- [PII_LEAKS_FOUND]: 
+- [VALIDATE_LOGS_FINAL_SCORE]: 100/100
+- [TOTAL_TRACES_COUNT]: (Pending Member B)
+- [PII_LEAKS_FOUND]: 0 
 
 ---
 
@@ -32,11 +33,11 @@
 ### 3.2 Dashboard & SLOs
 - [DASHBOARD_6_PANELS_SCREENSHOT]: [Path to image]
 - [SLO_TABLE]:
-| SLI | Target | Window | Current Value |
-|---|---:|---|---:|
-| Latency P95 | < 3000ms | 28d | |
-| Error Rate | < 2% | 28d | |
-| Cost Budget | < $2.5/day | 1d | |
+| SLI         |     Target | Window | Current Value |
+| ----------- | ---------: | ------ | ------------: |
+| Latency P95 |   < 3000ms | 28d    |               |
+| Error Rate  |       < 2% | 28d    |               |
+| Cost Budget | < $2.5/day | 1d     |               |
 
 ### 3.3 Alerts & Runbook
 - [ALERT_RULES_SCREENSHOT]: [Path to image]
@@ -45,11 +46,11 @@
 ---
 
 ## 4. Incident Response (Group)
-- [SCENARIO_NAME]: (e.g., rag_slow)
-- [SYMPTOMS_OBSERVED]: 
-- [ROOT_CAUSE_PROVED_BY]: (List specific Trace ID or Log Line)
-- [FIX_ACTION]: 
-- [PREVENTIVE_MEASURE]: 
+- [SCENARIO_NAME]: rag_slow
+- [SYMPTOMS_OBSERVED]: End-to-end latency increased from ~813ms to ~1100ms (+37%) when rag_slow incident enabled. All requests still succeed (HTTP 200).
+- [ROOT_CAUSE_PROVED_BY]: Log records show latency_ms=150 at API layer unchanged, indicating slowdown in agent.retrieve() or mock_rag stage. Verified by enabling/disabling incident scenario and re-running load tests.
+- [FIX_ACTION]: Disabled rag_slow incident. Latency returned to baseline ~803ms.
+- [PREVENTIVE_MEASURE]: Set timeout threshold for RAG retrieval stage; trigger P2 alert if P95 latency exceeds 5000ms for 30m window (see config/alert_rules.yaml). 
 
 ---
 

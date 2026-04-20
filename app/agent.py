@@ -7,7 +7,7 @@ from . import metrics
 from .mock_llm import FakeLLM
 from .mock_rag import retrieve
 from .pii import hash_user_id, summarize_text
-from .tracing import langfuse_context, observe
+from .tracing import get_langfuse_client, propagate_attributes
 
 
 @dataclass
@@ -25,35 +25,56 @@ class LabAgent:
         self.model = model
         self.llm = FakeLLM(model=model)
 
-    @observe()
     def run(self, user_id: str, feature: str, session_id: str, message: str) -> AgentResult:
-        started = time.perf_counter()
-        docs = retrieve(message)
-        prompt = f"Feature={feature}\nDocs={docs}\nQuestion={message}"
-        response = self.llm.generate(prompt)
-        quality_score = self._heuristic_quality(message, response.text, docs)
-        latency_ms = int((time.perf_counter() - started) * 1000)
-        cost_usd = self._estimate_cost(response.usage.input_tokens, response.usage.output_tokens)
-
-        langfuse_context.update_current_trace(
-            user_id=hash_user_id(user_id),
-            session_id=session_id,
-            tags=[
-                "lab",
-                "danang-travel-planner",
-                f"feature:{feature}",
-                f"model:{self.model}",
-            ],
-        )
-        langfuse_context.update_current_observation(
-            metadata={
-                "doc_count": len(docs),
-                "query_preview": summarize_text(message),
-                "domain": "danang-travel",
-                "city": "da-nang",
+        langfuse = get_langfuse_client()
+        with langfuse.start_as_current_observation(
+            name="danang_travel_chat",
+            input={
+                "feature": feature,
+                "message_preview": summarize_text(message),
             },
-            usage_details={"input": response.usage.input_tokens, "output": response.usage.output_tokens},
-        )
+        ):
+            with propagate_attributes(
+                trace_name="danang-travel-chat",
+                user_id=hash_user_id(user_id),
+                session_id=session_id,
+                metadata={
+                    "domain": "danang-travel",
+                    "city": "da-nang",
+                    "feature": feature,
+                    "model": self.model,
+                },
+                tags=[
+                    "lab",
+                    "danang-travel-planner",
+                    f"feature:{feature}",
+                    f"model:{self.model}",
+                ],
+            ):
+                started = time.perf_counter()
+                docs = retrieve(message)
+                prompt = f"Feature={feature}\nDocs={docs}\nQuestion={message}"
+                response = self.llm.generate(prompt)
+                quality_score = self._heuristic_quality(message, response.text, docs)
+                latency_ms = int((time.perf_counter() - started) * 1000)
+                cost_usd = self._estimate_cost(response.usage.input_tokens, response.usage.output_tokens)
+
+                langfuse.update_current_span(
+                    output={
+                        "answer_preview": summarize_text(response.text),
+                        "quality_score": quality_score,
+                        "latency_ms": latency_ms,
+                        "cost_usd": cost_usd,
+                    },
+                    metadata={
+                        "doc_count": len(docs),
+                        "query_preview": summarize_text(message),
+                        "domain": "danang-travel",
+                        "city": "da-nang",
+                        "tokens_in": response.usage.input_tokens,
+                        "tokens_out": response.usage.output_tokens,
+                    },
+                )
 
         metrics.record_request(
             latency_ms=latency_ms,
