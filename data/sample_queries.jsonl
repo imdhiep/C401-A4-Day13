@@ -1,10 +1,16 @@
-{"user_id":"u01","session_id":"s01","feature":"qa","message":"What is your refund policy? My email is student@vinuni.edu.vn"}
-{"user_id":"u02","session_id":"s02","feature":"qa","message":"Explain why metrics traces and logs work together"}
-{"user_id":"u03","session_id":"s03","feature":"summary","message":"Summarize the monitoring policy for production logging"}
-{"user_id":"u04","session_id":"s04","feature":"qa","message":"Can I get help with policy and monitoring?"}
-{"user_id":"u05","session_id":"s05","feature":"qa","message":"Here is my phone 0987654321, what should be logged?"}
-{"user_id":"u06","session_id":"s06","feature":"summary","message":"Give me a short summary of the observability workflow"}
-{"user_id":"u07","session_id":"s07","feature":"qa","message":"What should not appear in app logs?"}
-{"user_id":"u08","session_id":"s08","feature":"qa","message":"How do I debug tail latency?"}
-{"user_id":"u09","session_id":"s09","feature":"qa","message":"What is the policy for PII and credit card 4111 1111 1111 1111?"}
-{"user_id":"u10","session_id":"s10","feature":"qa","message":"How should alerts be designed?"}
+{"user_id":"u01","session_id":"s01","feature":"qa","message":"Giá vé Bà Nà Hills là bao nhiêu? Email tôi là duong@gmail.com"}
+{"user_id":"u02","session_id":"s02","feature":"qa","message":"Tôi muốn ăn mì quảng ngon ở Đà Nẵng, tư vấn giúp tôi"}
+{"user_id":"u03","session_id":"s03","feature":"summary","message":"Tóm tắt lịch trình đi Ngũ Hành Sơn và Chùa Linh Ứng trong 1 ngày"}
+{"user_id":"u04","session_id":"s04","feature":"qa","message":"Cầu Rồng phun lửa lúc mấy giờ? Có cần đặt chỗ trước không?"}
+{"user_id":"u05","session_id":"s05","feature":"qa","message":"Số điện thoại tôi là 0905123456, hãy gửi cho tôi danh sách hải sản giá rẻ"}
+{"user_id":"u06","session_id":"s06","feature":"summary","message":"Tóm tắt các bãi biển đẹp nhất tại Đà Nẵng để tắm vào buổi sáng"}
+{"user_id":"u07","session_id":"s07","feature":"qa","message":"Cách thuê xe máy tại Đà Nẵng và chi phí dự kiến như thế nào?"}
+{"user_id":"u08","session_id":"s08","feature":"qa","message":"Tôi muốn đặt phòng resort mặt biển Mỹ Khê cho gia đình 4 người"}
+{"user_id":"u09","session_id":"s09","feature":"qa","message":"Thông tin PII và số thẻ tín dụng 4111 1111 1111 1111 có được bảo mật khi đặt tour không?"}
+{"user_id":"u10","session_id":"s10","feature":"qa","message":"Thời điểm nào đi du lịch Đà Nẵng là đẹp nhất trong năm?"}
+{"user_id":"u11","session_id":"s11","feature":"qa","message":"Giá vàng hôm nay tại Đà Nẵng bao nhiêu?"}
+{"user_id":"u12","session_id":"s12","feature":"qa","message":"Tư vấn cho tôi các quán ăn ngon nhất ở Hà Nội."}
+{"user_id":"u13","session_id":"s13","feature":"qa","message":"Lịch trình đi xem Cầu Rồng phun lửa."}
+{"user_id":"u14","session_id":"s14","feature":"qa","message":"Tôi muốn biết chính sách bảo mật cho số điện thoại 0905999888 của tôi."}
+{"user_id":"u15","session_id":"s15","feature":"qa","message":"Kể cho tôi một câu chuyện cười về du lịch."}
+{"user_id":"u16","session_id":"s16","feature":"qa","message":"Làm sao để đi từ Đà Nẵng đến Bà Nà Hills tiết kiệm nhất?"}
