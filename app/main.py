@@ -2,10 +2,18 @@ from __future__ import annotations
 
 import os
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
-from dotenv import load_dotenv
 from structlog.contextvars import bind_contextvars
+
+load_dotenv()
+if os.getenv("LANGFUSE_HOST") and not os.getenv("LANGFUSE_BASE_URL"):
+    os.environ["LANGFUSE_BASE_URL"] = os.getenv("LANGFUSE_HOST", "")
+if os.getenv("APP_ENV") and not os.getenv("LANGFUSE_TRACING_ENVIRONMENT"):
+    os.environ["LANGFUSE_TRACING_ENVIRONMENT"] = os.getenv("APP_ENV", "dev")
+if not os.getenv("LANGFUSE_TIMEOUT"):
+    os.environ["LANGFUSE_TIMEOUT"] = "20"
 
 from .agent import LabAgent
 from .incidents import disable, enable, status
@@ -14,9 +22,7 @@ from .metrics import record_error, snapshot
 from .middleware import CorrelationIdMiddleware
 from .pii import hash_user_id, summarize_text
 from .schemas import ChatRequest, ChatResponse
-from .tracing import langfuse_context, tracing_enabled
-
-load_dotenv()
+from .tracing import get_langfuse_client, tracing_enabled
 
 configure_logging()
 log = get_logger()
@@ -77,7 +83,7 @@ async def chat(request: Request, body: ChatRequest) -> ChatResponse:
             cost_usd=result.cost_usd,
             payload={"answer_preview": summarize_text(result.answer)},
         )
-        langfuse_context.flush()
+        get_langfuse_client().flush()
         return ChatResponse(
             answer=result.answer,
             correlation_id=request.state.correlation_id,
@@ -96,7 +102,7 @@ async def chat(request: Request, body: ChatRequest) -> ChatResponse:
             error_type=error_type,
             payload={"detail": str(exc), "message_preview": summarize_text(body.message)},
         )
-        langfuse_context.flush()
+        get_langfuse_client().flush()
         raise HTTPException(status_code=500, detail=error_type) from exc
 
 
